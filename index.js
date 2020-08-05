@@ -1,5 +1,3 @@
-const path = require('path');
-
 const maintenance = (app, options) => {
     var mode = false;
     var accessKey;
@@ -52,7 +50,7 @@ const maintenance = (app, options) => {
                 res.json({ statusCode, message })
                 : forceMessage ?
                     res.send({ message })
-                    : res.status(statusCode).sendFile(path.join(__dirname, `../../${fileRoute}`));
+                    : res.status(statusCode).sendFile((`../../${fileRoute}`));
         }
         next();
     }
