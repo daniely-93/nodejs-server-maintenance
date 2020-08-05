@@ -1,6 +1,6 @@
 {
   "name": "@danielyona93/nodejs-server-maintenance",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Express.js middleware to control server maintenance mode",
   "main": "index.js",
   "scripts": {
