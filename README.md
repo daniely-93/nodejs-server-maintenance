@@ -14,19 +14,19 @@ or
 
 Using default options
 
-    const maintenance = require('nodejs-server-maintencene');
+    const maintenance = require('nodejs-server-maintenance');
     
     maintenance(app);
 
 Initializing maintenance mode to true
 
-    const maintenance = require('nodejs-server-maintencene');
+    const maintenance = require('nodejs-server-maintenance');
     
     maintenance(app, true);
 
 Using customized configuration
 
-    const maintenance = require('nodejs-server-maintencene');
+    const maintenance = require('nodejs-server-maintenance');
     
     const options = {
         mode: false,        // default value: false 
