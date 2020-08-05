@@ -4,11 +4,11 @@ Express.js middleware to control server maintenance mode
 
 ## Installation
 
-    yarn add @danielyona93/nodejs-server-maintenance
+    yarn add nodejs-server-maintenance
 
 or
 
-    npm install @danielyona93/nodejs-server-maintenance
+    npm install nodejs-server-maintenance
 
 ## Usage
 

@@ -52,7 +52,7 @@ const maintenance = (app, options) => {
                 res.json({ statusCode, message })
                 : forceMessage ?
                     res.send({ message })
-                    : res.status(statusCode).sendFile(path.join(__dirname, `../${fileRoute}`));
+                    : res.status(statusCode).sendFile(path.join(__dirname, `../../${fileRoute}`));
         }
         next();
     }
