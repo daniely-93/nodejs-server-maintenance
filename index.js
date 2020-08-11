@@ -4,7 +4,7 @@ const maintenance = (app, options) => {
     var mode = false;
     var accessKey;
     var endpoint = '/maintenance';
-    var fileRoute = '/views/maintenance.html';
+    var filePath = '/views/maintenance.html';
     var forceMessage = false;
     var message = 'Error 503: Server is temporarily unavailable, please try again lager.';
     var useApi = false;
@@ -16,7 +16,7 @@ const maintenance = (app, options) => {
         mode = options.mode || mode;
         accessKey = options.accessKey;
         endpoint = options.endpoint || endpoint;
-        fileRoute = options.fileRoute || fileRoute;
+        filePath = options.filePath || filePath;
         forceMessage = options.forceMessage || forceMessage;
         message = options.message || message;
         useApi = options.useApi || useApi;
@@ -52,7 +52,7 @@ const maintenance = (app, options) => {
                 res.json({ statusCode, message })
                 : forceMessage ?
                     res.send({ message })
-                    : res.status(statusCode).sendFile(path.join(__dirname, `../../${fileRoute}`));
+                    : res.status(statusCode).sendFile(path.join(__dirname, `../../${filePath}`));
         }
         next();
     }

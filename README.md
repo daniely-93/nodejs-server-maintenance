@@ -32,7 +32,7 @@ Using customized configuration
         mode: false,        // default value: false 
         accessKey: 'V1msnCX6',      // optional
         endpoint: '/maintenance',       // default value: /maintenance
-        fileRoute: '/views/maintenance.html',       // default value: /views/maintenance.html
+        filePath: '/views/maintenance.html',       // default value: /views/maintenance.html
         forceMessage: false,        // default value: false
         message: 'Error 503: Server is temporarily unavailable, please try again lager.',       // default value: Error 503: Server is temporarily unavailable, please try again lager.
         useApi: false,      // default value: false
@@ -58,9 +58,9 @@ Name | Type | Description
 ------------ | ------------- | -------------
 mode | Boolean | Sets maintenance mode on/off
 accessKey | String | Allows access only using the access key
-endpoint | String | Defines the requestion route after the domain
-fileRoute | String | Sets the route to the HTML file that the server will send when mode is on
-forceMessage | Boolean | Forces a simple message instead of using HTML file
+endpoint | String | The URL endpoint
+filePath | String | The path to the HTML file
+forceMessage | Boolean | Forces a simple message instead HTML
 message | String | A simple message to display instead of HTML
 useApi | Boolean | If true, the server will send JSON { statusCode, message }
 statusCode | Number | Response status code
