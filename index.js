@@ -9,6 +9,7 @@ const maintenance = (app, options) => {
     var message = 'Error 503: Server is temporarily unavailable, please try again lager.';
     var useApi = false;
     var statusCode = 503;
+    var blockPost = false;
 
     if (typeof (options) === 'boolean') {
         mode = options;
@@ -21,6 +22,7 @@ const maintenance = (app, options) => {
         message = options.message || message;
         useApi = options.useApi || useApi;
         statusCode = options.statusCode || statusCode;
+        blockPost = options.blockPost || blockPost;
     }
 
     const checkAuthentication = (req, res, next) => {
@@ -37,24 +39,29 @@ const maintenance = (app, options) => {
     const server = app => {
         app.post(endpoint, checkAuthentication, (req, res) => {
             mode = true;
-            res.sendStatus(200);
+            res.status(200).json({ success: true, maintenance: true });
         })
         app.delete(endpoint, checkAuthentication, (req, res) => {
             mode = false;
-            res.sendStatus(200);
+            res.status(200).json({ success: true, maintenance: false });
         })
+        app.get(`${endpoint}/status`, (req, res) => res.status(200).json({ success: true, maintenance: mode }))
+        blockPost && app.post('/*', (req, res, next) => {
+            if (mode) {
+                return res.status(statusCode).send({ message })
+            }
+            next();
+        });
         app.get('/*', middleware);
     }
 
     const middleware = (req, res, next) => {
-        if (mode) {
-            return useApi ?
-                res.json({ statusCode, message })
-                : forceMessage ?
-                    res.send({ message })
-                    : res.status(statusCode).sendFile(path.join(__dirname, `../../${filePath}`));
-        }
-        next();
+        if (!mode) return next();
+        return useApi ?
+            res.json({ statusCode, message })
+            : forceMessage ?
+                res.send({ message })
+                : res.status(statusCode).sendFile(path.join(__dirname, `../../${filePath}`));
     }
 
     return server(app);

@@ -28,15 +28,17 @@ Using customized configuration
 
     const maintenance = require('nodejs-server-maintenance');
     
+    // these are the default values
     const options = {
-        mode: false,        // default value: false 
-        accessKey: 'V1msnCX6',      // optional
-        endpoint: '/maintenance',       // default value: /maintenance
-        filePath: '/views/maintenance.html',       // default value: /views/maintenance.html
-        forceMessage: false,        // default value: false
-        message: 'Error 503: Server is temporarily unavailable, please try again lager.',       // default value: Error 503: Server is temporarily unavailable, please try again lager.
-        useApi: false,      // default value: false
-        statusCode: 503     // default value: 503
+        mode: false,        
+        accessKey: '9a8db4cc9b3e1', // optional
+        endpoint: '/maintenance',
+        filePath: '/views/maintenance.html',
+        forceMessage: false,       
+        message: 'Error 503: Server is temporarily unavailable, please try again lager.',
+        useApi: false,
+        statusCode: 503,
+        blockPost: false
     }
     
     maintenance(app, options);
@@ -50,7 +52,11 @@ Setting maintenance mode off
 
     DELETE request to http://yourserver/[endpoint]?access_key=[accessKey]
 
-> Remove access_key query string if no accessKey provided
+Getting maintenance status
+
+    GET requestion to http://yourserver/[endpoint]/status
+
+> access_key is optional
 
 ## Variables
 
@@ -64,3 +70,4 @@ forceMessage | Boolean | Forces a simple message instead HTML
 message | String | A simple message to display instead of HTML
 useApi | Boolean | If true, the server will send JSON { statusCode, message }
 statusCode | Number | Response status code
+blockPost | Boolean | Blocks all POST requests, useful for app users to block login/registration
