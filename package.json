@@ -1,6 +1,6 @@
 {
   "name": "nodejs-server-maintenance",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Express.js middleware to control server maintenance mode",
   "main": "index.js",
   "scripts": {
@@ -8,16 +8,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/daniely93/server-maintenance.git"
+    "url": "git+https://github.com/daniely-93/server-maintenance.git"
   },
   "keywords": [
+    "nodejs",
+    "node-js",
+    "express.js",
     "server",
     "maintenance"
   ],
   "author": "daniely93",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/daniely93/nodejs-server-maintenance/issues"
+    "url": "https://github.com/daniely-93/nodejs-server-maintenance/issues"
   },
-  "homepage": "https://github.com/daniely93/nodejs-server-maintenance#readme"
+  "homepage": "https://github.com/daniely-93/nodejs-server-maintenance#readme"
 }
