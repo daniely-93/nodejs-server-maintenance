@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/daniely-93/server-maintenance.git"
+    "url": "git+https://github.com/daniely-93/nodejs-server-maintenance.git"
   },
   "keywords": [
     "nodejs",
