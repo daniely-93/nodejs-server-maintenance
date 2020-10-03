@@ -27,13 +27,8 @@ const maintenance = (app, options) => {
 
     const checkAuthentication = (req, res, next) => {
         if (!accessKey) return next();
-
         const isMatched = req.query.access_key === accessKey;
-        if (isMatched) {
-            return next();
-        }
-
-        res.sendStatus(401);
+        return isMatched ? next() : res.sendStatus(401);
     }
 
     const server = app => {
@@ -41,21 +36,23 @@ const maintenance = (app, options) => {
             mode = true;
             res.status(200).json({ success: true, maintenance: true });
         })
+
         app.delete(endpoint, checkAuthentication, (req, res) => {
             mode = false;
             res.status(200).json({ success: true, maintenance: false });
         })
-        app.get(`${endpoint}/status`, (req, res) => res.status(200).json({ success: true, maintenance: mode }))
+
+        app.get(`${endpoint}/status`, (req, res) => res.status(200).json({ success: true, maintenance: mode }));
+
         blockPost && app.post('/*', (req, res, next) => {
-            if (mode) {
-                return res.status(statusCode).send({ message })
-            }
-            next();
+            if (!mode) return next();
+            return res.status(statusCode).send({ message })
         });
-        app.get('/*', middleware);
+
+        app.get('/*', checkMaintenance);
     }
 
-    const middleware = (req, res, next) => {
+    const checkMaintenance = (req, res, next) => {
         if (!mode) return next();
         return useApi ?
             res.json({ statusCode, message })

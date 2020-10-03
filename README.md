@@ -54,7 +54,7 @@ Setting maintenance mode off
 
 Getting maintenance status
 
-    GET requestion to http://yourserver/[endpoint]/status
+    GET request to http://yourserver/[endpoint]/status
 
 > access_key is optional
 
@@ -70,4 +70,4 @@ forceMessage | Boolean | Forces a simple message instead HTML
 message | String | A simple message to display instead of HTML
 useApi | Boolean | If true, the server will send JSON { statusCode, message }
 statusCode | Number | Response status code
-blockPost | Boolean | Blocks all POST requests, useful for app users to block login/registration
+blockPost | Boolean | Blocks all POST requests, useful for mobile apps to prevent login/registration
