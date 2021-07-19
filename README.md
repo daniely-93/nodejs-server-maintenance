@@ -65,7 +65,7 @@ You can also customize the parameters sending a JSON with **the fields below** y
 In order to reset the customized parameters above, send the following JSON or restart the server
 
     {
-        reset: '...'
+        reset: true
 	}
 
 **Getting maintenance status**
