@@ -51,11 +51,11 @@ or
 You can also customize the parameters sending a JSON with **the fields below** you want to change without changing your code (until the app restarts)
 
     {
-	    filePath: '...',
-	    useApi: false,
-	    statusCode: 503,
-	    message: '...',
-	    blockPost: false
+        filePath: '...',
+        useApi: false,
+        statusCode: 503,
+        message: '...',
+        blockPost: false
 	}
 
 **Setting maintenance mode off**
@@ -64,8 +64,8 @@ You can also customize the parameters sending a JSON with **the fields below** y
 
 In order to reset the customized parameters above, send the following JSON or restart the server
 
-	{
-		"reset": true
+    {
+        reset: '...'
 	}
 
 **Getting maintenance status**
@@ -74,9 +74,9 @@ In order to reset the customized parameters above, send the following JSON or re
     
 Response:
 
-	{
-		"success":  true,
-		"mode":  true/false
+    {
+        success: true,
+        mode: true/false
 	}
 
 ## Notes
