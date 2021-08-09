@@ -82,7 +82,7 @@ Response:
 ## Notes
 
  - accessKey is optional but is recommended to use
- - The maintenance should be defined before your app routes
+ - The maintenance should be defined before your app routes **and** after your body parser
  - The priority of the variables is
 	 1. useApi - if `true` the server will send a JSON
 	 2. filePath - if `filePath` is provided, the server will send that file
