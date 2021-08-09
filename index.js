@@ -44,7 +44,7 @@ const maintenance = (app, options) => {
 
   const server = (app) => {
     app.post(endpoint, checkAuthentication, (req, res) => {
-      if (Object.keys(req.body).length) {
+      if (req.body && Object.keys(req.body).length) {
         filePath = req.body.filePath || filePath;
         useApi = req.body.useApi || useApi;
         statusCode = req.body.statusCode || statusCode;
@@ -58,7 +58,7 @@ const maintenance = (app, options) => {
     });
 
     app.delete(endpoint, checkAuthentication, (req, res) => {
-      req.body.reset && _resetData();
+      if(req.body) req.body.reset && _resetData();
       mode = false;
       res.status(200).json({ success: true, mode });
     });
