@@ -1,6 +1,6 @@
 const path = require("path");
 
-const maintenance = (app, options) => {
+const maintenance = (app, options, middleware) => {
   var mode,
     accessKey,
     endpoint,
@@ -8,7 +8,7 @@ const maintenance = (app, options) => {
     useApi,
     statusCode,
     message,
-    blockPost;
+    blockMethods;
 
   const _resetData = () => {
     mode = false;
@@ -18,7 +18,7 @@ const maintenance = (app, options) => {
     useApi = false;
     statusCode = 503;
     message = `Error ${statusCode}: Server is temporarily unavailable, please try again later.`;
-    blockPost = false;
+    blockMethods = ["GET"];
   };
 
   _resetData();
@@ -33,7 +33,7 @@ const maintenance = (app, options) => {
     message = options.message || message;
     useApi = options.useApi || useApi;
     statusCode = options.statusCode || statusCode;
-    blockPost = options.blockPost || blockPost;
+    blockMethods = options.blockMethods || blockMethods;
   }
 
   const checkAuthentication = (req, res, next) => {
@@ -43,6 +43,10 @@ const maintenance = (app, options) => {
   };
 
   const server = (app) => {
+    if (middleware) {
+      app.use(endpoint, middleware);
+    }
+
     app.post(endpoint, checkAuthentication, (req, res) => {
       if (Object.keys(req.body).length) {
         filePath = req.body.filePath || filePath;
@@ -51,7 +55,7 @@ const maintenance = (app, options) => {
         message =
           req.body.message ||
           `Error ${statusCode}: Server is temporarily unavailable, please try again later.`;
-        blockPost = req.body.blockPost || blockPost;
+        blockMethods = req.body.blockMethods || blockMethods;
       }
       mode = true;
       res.status(200).json({ success: true, mode });
@@ -67,13 +71,12 @@ const maintenance = (app, options) => {
       res.status(200).json({ success: true, mode })
     );
 
-    blockPost &&
-      app.post("/*", (req, res, next) => {
-        if (!mode) return next();
-        return res.status(statusCode).send({ message });
-      });
-
-    app.get("/*", checkMaintenance);
+    app.use("/*", (req, res, next) => {
+      if (mode && blockMethods.includes(req.method)) {
+        return checkMaintenance(req, res, next);
+      }
+      return next();
+    });
   };
 
   const checkMaintenance = (req, res, next) => {

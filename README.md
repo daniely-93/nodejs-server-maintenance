@@ -1,4 +1,3 @@
-
 #  nodejs-server-maintenance
 
 Express.js middleware to control server maintenance mode
@@ -39,10 +38,32 @@ or
 	    useApi: false,
 	    statusCode: 503,
 	    message: 'Error 503: Server is temporarily unavailable, please try again lager.', // 503 is taken from statusCode
-	    blockPost: false
+	    blockMethods: ['GET']
     }
     
     maintenance(app, options);
+    
+**Setting a customized access middleware**
+
+If you want to handle the access to the `endpoint` by yourself, you can add a function.
+It allows you to hide the endpoint API and control the response.
+
+    const maintenance = require('nodejs-server-maintenance');
+    
+    // options
+    
+	const middleware = (req, res, next) => {
+		try {
+			// you can verify the token if you use jwt or have other conditions
+			const  token  =  req.headers.authorization.split("  ")[1];
+			if (token  ===  "token1234") return  next();
+			throw  new  Error();
+		} catch (error) {
+			res.sendStatus(404);	
+		}
+	};
+	
+    maintenance(app, options, middleware);
 
 **Setting maintenance mode on**
 
@@ -55,7 +76,7 @@ You can also customize the parameters sending a JSON with **the fields below** y
         useApi: false,
         statusCode: 503,
         message: '...',
-        blockPost: false
+        blockMethods: ['GET']
 	}
 
 **Setting maintenance mode off**
@@ -100,4 +121,4 @@ filePath | String | The path to the file to send (the default value is `null`)
 message | String | A default message to display
 useApi | Boolean | If true, the server will send JSON { statusCode, message }
 statusCode | Number | Response status code
-blockPost | Boolean | Blocks all POST requests, useful for mobile apps to prevent login/registration during maintenance
+blockMethods | Array (strings) | Blocks the request methods during the maintenance
