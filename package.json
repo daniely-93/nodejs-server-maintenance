@@ -1,6 +1,6 @@
 {
   "name": "nodejs-server-maintenance",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Express.js middleware to control server maintenance mode",
   "main": "index.js",
   "scripts": {

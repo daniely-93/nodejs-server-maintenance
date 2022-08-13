@@ -48,7 +48,7 @@ const maintenance = (app, options, middleware) => {
     }
 
     app.post(endpoint, checkAuthentication, (req, res) => {
-      if (Object.keys(req.body).length) {
+      if (req.body && Object.keys(req.body).length) {
         filePath = req.body.filePath || filePath;
         useApi = req.body.useApi || useApi;
         statusCode = req.body.statusCode || statusCode;
@@ -58,13 +58,18 @@ const maintenance = (app, options, middleware) => {
         blockMethods = req.body.blockMethods || blockMethods;
       }
       mode = true;
-      res.status(200).json({ success: true, mode });
+      res.status(200).json({
+        success: true,
+        mode,
+      });
     });
 
     app.delete(endpoint, checkAuthentication, (req, res) => {
       req.body?.reset && _resetData();
       mode = false;
-      res.status(200).json({ success: true, mode, resetData: req.body?.reset });
+      res
+        .status(200)
+        .json({ success: true, mode, resetData: Boolean(req.body?.reset) });
     });
 
     app.get(`${endpoint}/status`, (req, res) =>
@@ -81,13 +86,11 @@ const maintenance = (app, options, middleware) => {
 
   const checkMaintenance = (req, res, next) => {
     if (!mode) return next();
-    return useApi
-      ? res.json({ statusCode, message })
-      : filePath
-      ? res
-          .status(statusCode)
-          .sendFile(path.join(__dirname, `../../${filePath}`))
-      : res.send(message);
+    const resWithCode = res.status(statusCode);
+    if (useApi) return resWithCode.json({ statusCode, message });
+    if (filePath)
+      return resWithCode.sendFile(path.join(__dirname, `../../${filePath}`));
+    return resWithCode.send(message);
   };
 
   return server(app);
